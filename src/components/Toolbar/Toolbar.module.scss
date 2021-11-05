@@ -1,0 +1,29 @@
+@import "../../styles/variables";
+
+.toolbar {
+  height: $toolbar-height;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-shadow: 0 4px 5px gray;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  width: 25px;
+  height: 25px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  &__brush {
+    background: url("../../assets/img/brush.png");
+  }
+}
+
+
+

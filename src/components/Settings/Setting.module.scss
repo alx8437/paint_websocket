@@ -1,6 +1,7 @@
-@import "./variables";
+@import "src/styles/variables";
 
-.toolbar {
+.setting-bar {
+  margin-top: 7px;
   height: $toolbar-height;
   background-color: white;
   display: flex;
