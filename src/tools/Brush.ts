@@ -1,10 +1,9 @@
 import Tool from "./Tool";
-import { RefObject } from "react";
 
 // Наследуется от класса Tool
 export default class Brush extends Tool {
   mouseDown: boolean | null = null;
-  constructor(canvas: RefObject<HTMLCanvasElement>) {
+  constructor(canvas: HTMLCanvasElement | null) {
     // Функция super будет вызывать конструктор родительского класса, в нее передаем canvas
     super(canvas);
     this.listen();
@@ -12,9 +11,9 @@ export default class Brush extends Tool {
 
   // После создания объекта, canvas будет слушать все эти функции - запускаем в конструкторе
   listen() {
-    this.canvas!.current!.onmousemove = this.mouseMoveHandler.bind(this);
-    this.canvas!.current!.onmousedown = this.mouseDownHandler.bind(this);
-    this.canvas!.current!.onmouseup = this.mouseUpHandler.bind(this);
+    this.canvas!.onmousemove = this.mouseMoveHandler.bind(this);
+    this.canvas!.onmousedown = this.mouseDownHandler.bind(this);
+    this.canvas!.onmouseup = this.mouseUpHandler.bind(this);
   }
 
   mouseUpHandler(event: MouseEvent) {
@@ -26,7 +25,7 @@ export default class Brush extends Tool {
     this.context!.beginPath();
     this.context!.moveTo(
       event.pageX - event.target.offsetLeft,
-      event.pageY - event.target.offsetLeft
+      event.pageY - event.target.offsetTop,
     );
   }
 
@@ -37,7 +36,7 @@ export default class Brush extends Tool {
     if (this.mouseDown) {
       this.draw(
         event.pageX - event.target.offsetLeft,
-        event.pageY - event.pageY - event.target.offsetTop
+        event.pageY - event.target.offsetTop
       );
     }
   }
