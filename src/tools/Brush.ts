@@ -30,9 +30,6 @@ export default class Brush extends Tool {
   }
 
   mouseMoveHandler(event: any) {
-    console.log(event.target.offsetLeft);
-    console.log(event.target.offsetTop);
-
     if (this.mouseDown) {
       this.draw(
         event.pageX - event.target.offsetLeft,

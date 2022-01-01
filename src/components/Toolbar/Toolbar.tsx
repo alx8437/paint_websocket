@@ -5,6 +5,7 @@ import Brush from "../../tools/Brush";
 import canvasState from "../../store/canvasState";
 import Rect from "../../tools/Rect";
 import Circle from "../../tools/Circle";
+import Eraser from "../../tools/Eraser";
 
 const Toolbar = () => {
     return (
@@ -14,7 +15,7 @@ const Toolbar = () => {
                     <button className={`${styles.btn} ${styles.btn__brush}`} onClick={() => toolState.setTool(new Brush(canvasState.canvas))}/>
                     <button className={`${styles.btn} ${styles.btn__rect}`} onClick={() => toolState.setTool(new Rect(canvasState.canvas))}/>
                     <button className={`${styles.btn} ${styles.btn__line}`}/>
-                    <button className={`${styles.btn} ${styles.btn__eraser}`}/>
+                    <button className={`${styles.btn} ${styles.btn__eraser}`} onClick={() => (toolState.setTool(new Eraser(canvasState.canvas)))}/>
                     <button className={`${styles.btn} ${styles.btn__circle}`} onClick={() => toolState.setTool(new Circle(canvasState.canvas))}/>
                     <input style={{marginLeft: 5}} type="color"/>
                 </div>

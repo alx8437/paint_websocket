@@ -33,6 +33,7 @@ export default class Circle extends Tool {
             let currentX = event.pageX - event.target.offsetLeft;
             let currentY = event.pageY - event.target.offsetTop;
             let radius = currentX - this.startX
+
             if (radius > 0) {
                 radius = currentX - this.startX
             } else {
