@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import styles from './Toolbar.module.scss'
 import toolState from "../../store/toolState";
 import Brush from "../../tools/Brush";
@@ -9,6 +9,11 @@ import Eraser from "../../tools/Eraser";
 import Line from "../../tools/Line";
 
 const Toolbar = () => {
+    const changeColor = (e: ChangeEvent<HTMLInputElement>) => {
+        toolState.setFillColor(e.currentTarget.value)
+        toolState.setStrokeColor(e.currentTarget.value)
+    }
+
     return (
         <div className={styles.toolbar}>
             <div className={styles.btn__container}>
@@ -18,7 +23,9 @@ const Toolbar = () => {
                     <button className={`${styles.btn} ${styles.btn__line}`} onClick={() => toolState.setTool(new Line(canvasState.canvas))}/>
                     <button className={`${styles.btn} ${styles.btn__eraser}`} onClick={() => (toolState.setTool(new Eraser(canvasState.canvas)))}/>
                     <button className={`${styles.btn} ${styles.btn__circle}`} onClick={() => toolState.setTool(new Circle(canvasState.canvas))}/>
-                    <input style={{marginLeft: 5}} type="color"/>
+                    <input style={{marginLeft: 5}} type="color" onChange={(e) => {
+                        changeColor(e)
+                    }}/>
                 </div>
                 <div className={styles.btn__nav}>
                     <button className={`${styles.btn} ${styles.btn__undo}`}/>
