@@ -28,8 +28,8 @@ const Toolbar = () => {
                     }}/>
                 </div>
                 <div className={styles.btn__nav}>
-                    <button className={`${styles.btn} ${styles.btn__undo}`}/>
-                    <button className={`${styles.btn} ${styles.btn__redo}`}/>
+                    <button className={`${styles.btn} ${styles.btn__undo}`} onClick={() => canvasState.undo()}/>
+                    <button className={`${styles.btn} ${styles.btn__redo}`} onClick={() => canvasState.redo()}/>
                     <button className={`${styles.btn} ${styles.btn__save}`}/>
                 </div>
             </div>
