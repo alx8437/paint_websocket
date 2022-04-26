@@ -5,8 +5,8 @@ export default class Circle extends Tool {
     startX: number = 0
     startY: number = 0
     saved: string = ''
-    constructor(canvas: HTMLCanvasElement | null) {
-        super(canvas);
+    constructor(canvas: HTMLCanvasElement | null, socket: WebSocket, sessionId: string) {
+        super(canvas, socket, sessionId);
         this.listen()
     }
 

@@ -6,8 +6,8 @@ export default class Line extends Tool {
     beginY: number | null = null;
     saved: string = '';
 
-    constructor(canvas: HTMLCanvasElement | null) {
-        super(canvas);
+    constructor(canvas: HTMLCanvasElement | null, socket: WebSocket, sessionId: string) {
+        super(canvas, socket, sessionId);
         this.listen()
     }
 

@@ -8,6 +8,7 @@ import Circle from "../../tools/Circle";
 import Eraser from "../../tools/Eraser";
 import Line from "../../tools/Line";
 
+
 const Toolbar = () => {
     const changeColor = (e: ChangeEvent<HTMLInputElement>) => {
         toolState.setFillColor(e.currentTarget.value)
@@ -18,11 +19,11 @@ const Toolbar = () => {
         <div className={styles.toolbar}>
             <div className={styles.btn__container}>
                 <div className={styles.btn_tools}>
-                    <button className={`${styles.btn} ${styles.btn__brush}`} onClick={() => toolState.setTool(new Brush(canvasState.canvas))}/>
-                    <button className={`${styles.btn} ${styles.btn__rect}`} onClick={() => toolState.setTool(new Rect(canvasState.canvas))}/>
-                    <button className={`${styles.btn} ${styles.btn__line}`} onClick={() => toolState.setTool(new Line(canvasState.canvas))}/>
-                    <button className={`${styles.btn} ${styles.btn__eraser}`} onClick={() => (toolState.setTool(new Eraser(canvasState.canvas)))}/>
-                    <button className={`${styles.btn} ${styles.btn__circle}`} onClick={() => toolState.setTool(new Circle(canvasState.canvas))}/>
+                    <button className={`${styles.btn} ${styles.btn__brush}`} onClick={() => toolState.setTool(new Brush(canvasState.canvas, canvasState.socket as WebSocket, canvasState.sessionId as string))}/>
+                    <button className={`${styles.btn} ${styles.btn__rect}`} onClick={() => toolState.setTool(new Rect(canvasState.canvas, canvasState.socket as WebSocket, canvasState.sessionId as string))}/>
+                    <button className={`${styles.btn} ${styles.btn__line}`} onClick={() => toolState.setTool(new Line(canvasState.canvas, canvasState.socket as WebSocket, canvasState.sessionId))}/>
+                    <button className={`${styles.btn} ${styles.btn__eraser}`} onClick={() => (toolState.setTool(new Eraser(canvasState.canvas, canvasState.socket as WebSocket, canvasState.sessionId as string)))}/>
+                    <button className={`${styles.btn} ${styles.btn__circle}`} onClick={() => toolState.setTool(new Circle(canvasState.canvas, canvasState.socket as WebSocket, canvasState.sessionId))}/>
                     <input style={{marginLeft: 5}} type="color" onChange={(e) => {
                         changeColor(e)
                     }}/>

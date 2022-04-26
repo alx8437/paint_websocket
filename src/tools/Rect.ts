@@ -7,9 +7,9 @@ export default class Rect extends Tool {
     startY: number = 0
     saved: string = ''
 
-    constructor(canvas: HTMLCanvasElement | null) {
+    constructor(canvas: HTMLCanvasElement | null, socket: WebSocket, sessionId: string) {
         // Функция super будет вызывать конструктор родительского класса, в нее передаем canvas
-        super(canvas);
+        super(canvas, socket, sessionId);
         this.listen();
     }
 

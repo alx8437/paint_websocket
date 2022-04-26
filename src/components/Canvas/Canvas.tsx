@@ -6,37 +6,81 @@ import toolState from "../../store/toolState";
 import Brush from "../../tools/Brush";
 import {Button, Modal} from "react-bootstrap";
 import { useInput } from "../../hooks/useInput";
-import {useParams} from "react-router-dom";
+import {Params, useParams} from "react-router-dom";
+
+type TFigure = {
+  type: 'brush' | 'finish',
+  x: number,
+  y: number,
+}
+
+export type TSessionMessageType = {
+  id: string,
+  username?: string,
+  method: 'draw' | 'connection'
+  figure: TFigure
+}
 
 const Canvas = observer(() => {
   // Также через ref взаимодействуют с неконтролируемыми компонентами
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isModal, setIsModal] = useState(true);
   const username = useInput('')
-  const params = useParams();
-  const {id} = params;
+  const params:  Readonly<Params<string>> = useParams();
 
   useEffect(() => {
     canvasState.setCanvas(canvasRef.current);
-    toolState.setTool(new Brush(canvasRef.current));
   }, []);
 
   useEffect(() => {
     if (canvasState.username) {
       const socket = new WebSocket('ws://localhost:5005')
+      canvasState.setSocket(socket);
+      if (params.id) {
+        toolState.setTool(new Brush(canvasRef.current, socket, params.id));
+      }
+
+      if (params!.id) {
+        canvasState.setSessionId(params.id);
+      }
       socket.onopen = () => {
-        console.log('Connection was success')
         socket.send(JSON.stringify({
-          id,
+          id:params.id,
           username: canvasState.username,
-          method: 'connection',
-        }))
+          method: "connection"
+        } as TSessionMessageType))
       }
       socket.onmessage = (e) => {
-        console.log(e.data)
+        const msg: TSessionMessageType = JSON.parse(e.data)
+        switch (msg.method) {
+          case "connection": {
+            console.log(`User ${msg.username} was connected successfully`)
+            break
+          }
+          case "draw": {
+            drawHandler(msg)
+            break
+          }
+        }
       }
     }
-  }, [canvasState.username, id])
+  }, [canvasState.username, params.id])
+
+  const drawHandler = (msg: TSessionMessageType) => {
+    const {figure} = msg;
+    const context = canvasRef!.current!.getContext('2d');
+    switch (figure.type) {
+      case "brush": {
+        Brush.draw(context as CanvasRenderingContext2D, figure.x, figure.y)
+        break
+      }
+      case "finish": {
+        context!.beginPath()
+        break
+      }
+    }
+
+  }
 
   const onMouseDownHandler = () => {
     // Do screenshot canvas and send it to store
