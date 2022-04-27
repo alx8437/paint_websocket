@@ -34,6 +34,7 @@ export default class Rect extends Tool {
                 y: this.startY,
                 width: this.width,
                 height: this.height,
+                color: this.context!.fillStyle,
             },
         } as TSessionMessageType))
     }
@@ -75,7 +76,8 @@ export default class Rect extends Tool {
 
     }
 
-    static staticDraw(context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number) {
+    static staticDraw(context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, color: string) {
+        context.fillStyle = color
         context.beginPath();
         context.rect(x, y, width, height);
         context.fill();

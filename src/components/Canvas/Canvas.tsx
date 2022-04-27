@@ -15,6 +15,7 @@ type TFigure = {
     y: number,
     width?: number,
     height?: number,
+    color?: string,
 }
 
 export type TSessionMessageType = {
@@ -78,7 +79,7 @@ const Canvas = observer(() => {
                 break
             }
             case "rect": {
-                Rect.staticDraw(context as CanvasRenderingContext2D, figure.x, figure.y, figure.width as number, figure.height as number)
+                Rect.staticDraw(context as CanvasRenderingContext2D, figure.x, figure.y, figure.width as number, figure.height as number, figure.color as string)
                 break
             }
             case "finish": {
