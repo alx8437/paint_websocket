@@ -9,6 +9,14 @@ export default class Eraser extends Brush {
     }
     // После создания объекта, canvas будет слушать все эти функции - запускаем в конструкторе
 
+    mouseMoveHandler(event: any) {
+        if (this.mouseDown) {
+            this.draw(
+                event.pageX - event.target.offsetLeft,
+                event.pageY - event.target.offsetTop
+            );
+        }
+    }
 
     draw(x: number, y: number) {
         this.context!.lineTo(x, y);

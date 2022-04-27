@@ -32,8 +32,17 @@ const Canvas = observer(() => {
     const username = useInput('')
     const params: Readonly<Params<string>> = useParams();
 
+    const setCanvasBackground = (canvas: HTMLCanvasElement, color: string) => {
+        const context = canvas.getContext('2d');
+        context!.fillStyle = color;
+        context!.fillRect(0, 0, canvas.width, canvas.height)
+    }
+
     useEffect(() => {
         canvasState.setCanvas(canvasRef.current);
+        if (canvasState.canvas) {
+            setCanvasBackground(canvasState.canvas, "white")
+        }
     }, []);
 
     useEffect(() => {
