@@ -1,4 +1,5 @@
 import Tool from "./Tool";
+import {TSessionMessageType} from "../components/Canvas/Canvas";
 
 // Наследуется от класса Tool
 export default class Rect extends Tool {
@@ -6,6 +7,8 @@ export default class Rect extends Tool {
     startX: number = 0
     startY: number = 0
     saved: string = ''
+    width?: number = 0
+    height?: number = 0
 
     constructor(canvas: HTMLCanvasElement | null, socket: WebSocket, sessionId: string) {
         // Функция super будет вызывать конструктор родительского класса, в нее передаем canvas
@@ -22,6 +25,17 @@ export default class Rect extends Tool {
 
     mouseUpHandler(event: MouseEvent) {
         this.mouseDown = false;
+        this.socket?.send(JSON.stringify({
+            id: this.sessionId,
+            method: 'draw',
+            figure: {
+                type: "rect",
+                x: this.startX,
+                y: this.startY,
+                width: this.width,
+                height: this.height,
+            },
+        } as TSessionMessageType))
     }
 
     mouseDownHandler(event: any) {
@@ -36,13 +50,13 @@ export default class Rect extends Tool {
         if (this.mouseDown) {
             let currentX = event.pageX - event.target.offsetLeft;
             let currentY = event.pageY - event.target.offsetTop;
-            let width = currentX - this.startX;
-            let height = currentY - this.startY
+            this.width = currentX - this.startX;
+            this.height = currentY - this.startY
             this.draw(
                 this.startX,
                 this.startY,
-                width,
-                height
+                this.width,
+                this.height
             );
         }
     }
@@ -59,5 +73,12 @@ export default class Rect extends Tool {
             this.context!.stroke();
         }
 
+    }
+
+    static staticDraw(context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number) {
+        context.beginPath();
+        context.rect(x, y, width, height);
+        context.fill();
+        context.stroke();
     }
 }
