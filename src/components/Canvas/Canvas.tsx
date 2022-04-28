@@ -8,6 +8,7 @@ import Rect from "../../tools/Rect"
 import {Button, Modal} from "react-bootstrap";
 import {useInput} from "../../hooks/useInput";
 import {Params, useParams} from "react-router-dom";
+import axios from 'axios';
 
 type TFigure = {
     type: 'brush' | 'finish' | 'rect',
@@ -101,7 +102,10 @@ const Canvas = observer(() => {
 
     const onMouseDownHandler = () => {
         // Do screenshot canvas and send it to store
-        canvasState.pushToUndo(canvasRef!.current!.toDataURL())
+        const screenshot = canvasRef!.current!.toDataURL();
+        canvasState.pushToUndo(screenshot);
+        axios.post(`http://localhost:5005/image?id=${params.id}`, {img: screenshot})
+            .then((res) => console.log(res.data))
     }
 
     const connectionHandler = () => {
