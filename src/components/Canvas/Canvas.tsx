@@ -43,7 +43,18 @@ const Canvas = observer(() => {
         canvasState.setCanvas(canvasRef.current);
         if (canvasState.canvas) {
             setCanvasBackground(canvasState.canvas, "white")
+            const context = canvasRef.current!.getContext('2d');
+            axios.get(`http://localhost:5005/image?id=${params.id}`)
+                .then((res) => {
+                    const img = new Image();
+                    img.src = res.data;
+                    img.onload = () => {
+                        context!.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+                        context!.drawImage(img, 0, 0, canvasRef.current!.width, canvasRef.current!.height);
+                    }
+                })
         }
+
     }, []);
 
     useEffect(() => {

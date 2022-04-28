@@ -73,7 +73,6 @@ export default class Rect extends Tool {
             this.context!.fill();
             this.context!.stroke();
         }
-
     }
 
     static staticDraw(context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, color: string) {
